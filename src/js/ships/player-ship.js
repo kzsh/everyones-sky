@@ -91,7 +91,9 @@ class PlayerShip extends Ship {
   }
 
   modifyProjectile(projectile) {
-    projectile.guideRadius = 100;
+    if (!projectile.guideRadius) {
+      projectile.guideRadius = 100;
+    }
   }
 
   shipColor() {

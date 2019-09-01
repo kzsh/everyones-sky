@@ -175,16 +175,39 @@ class Planet extends Body {
   }
 
   spawnShip() {
-    U.ships.push(
-      new AIShip(
-        this.civilization,
+    if (Math.random() > 0.5) {
+      U.ships.push(
+        new AIShip(
+          this.civilization,
 
-        // Giving the ship a shitty position within the planet
-        // AI ships fix their position automatically since they can't crash into their own planet
-        this.x + rnd(-1, 1),
-        this.y + rnd(-1, 1)
-      )
-    );
+          // Giving the ship a shitty position within the planet
+          // AI ships fix their position automatically since they can't crash into their own planet
+          this.x + rnd(-1, 1),
+          this.y + rnd(-1, 1)
+        )
+      );
+      U.ships.push(
+        new AIShip(
+          this.civilization,
+
+          // Giving the ship a shitty position within the planet
+          // AI ships fix their position automatically since they can't crash into their own planet
+          this.x + rnd(-1, 1),
+          this.y + rnd(-1, 1)
+        )
+      );
+    } else {
+      U.ships.push(
+        new BigAIShip(
+          this.civilization,
+
+          // Giving the ship a shitty position within the planet
+          // AI ships fix their position automatically since they can't crash into their own planet
+          this.x + rnd(-1, 1),
+          this.y + rnd(-1, 1)
+        )
+      );
+    }
   }
 
   render() {

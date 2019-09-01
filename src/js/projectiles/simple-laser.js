@@ -11,11 +11,11 @@ class SimpleLaser extends Laser {
     super.cycle(e);
 
     const d = 0.3;
-    particle("cyan", [
+    particle("white", [
       ["alpha", 1, 0, d],
-      ["size", 4, rnd(4, 6), d],
-      ["x", this.x, this.x + rnd(-3, 3), d],
-      ["y", this.y, this.y + rnd(-3, 3), d]
+      ["size", 4, rnd(4, 6), d]
+      // ["x", this.x, this.x + rnd(-3, 3), d],
+      // ["y", this.y, this.y + rnd(-3, 3), d]
     ]);
   }
 
