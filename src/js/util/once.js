@@ -1,7 +1,7 @@
 once = f => {
-    let res
-    return () => {
-        res = res || f();
-        return res;
-    };
+  let res;
+  return () => {
+    res = res || f();
+    return res;
+  };
 };

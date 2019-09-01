@@ -2,9 +2,11 @@ const p = CanvasRenderingContext2D.prototype;
 
 // A couple extra canvas functions
 p.wrap = function(f) {
-    this.save();
-    f();
-    this.restore();
+  this.save();
+  f();
+  this.restore();
 };
 p.fr = p.fillRect;
-p.fs = function(x) { this.fillStyle = x };
+p.fs = function(x) {
+  this.fillStyle = x;
+};
