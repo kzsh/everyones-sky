@@ -1,4 +1,8 @@
-class ReachTarget extends TimedMissionStep {
+import { EVENT_CYCLE } from "./constants";
+import { dist } from "../math";
+import { TimedMissionStep } from "./timed-mission-step";
+
+export class ReachTarget extends TimedMissionStep {
   constructor(target, prompt) {
     super();
     this.targets = [target];
@@ -17,5 +21,13 @@ class ReachTarget extends TimedMissionStep {
         G.missionDone(true);
       }
     });
+  }
+
+  reach(target, prompt) {
+    const step = new ReachTarget(target, prompt);
+    step.civilization = this.civilization;
+    this.proceed(step);
+
+    step.timeleft = this.timeleft;
   }
 }

@@ -1,4 +1,6 @@
-stickString = string => {
+import { sign, limit } from "./math";
+
+export const stickString = string => {
   const absoluteSegments = [];
 
   let characterX = 0;
@@ -48,7 +50,7 @@ stickString = string => {
   };
 };
 
-renderStickString = (
+export const renderStickString = (
   stickStringSettings,
   charWidth,
   charHeight,

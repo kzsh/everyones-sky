@@ -1,4 +1,4 @@
-createNumberGenerator = seed => {
+export const createNumberGenerator = seed => {
   const ints = new Uint32Array([
     imul(seed, 0x85ebca6b),
     imul(seed, 0xc2b2ae35)

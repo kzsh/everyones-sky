@@ -1,4 +1,25 @@
-class PlayerShip extends Ship {
+import {
+  SHIP_HEALING_AMOUNT,
+  SHIP_HEALING_DAMAGE_TIMEOUT,
+  SHIP_SUPERSHOT_INTERVAL,
+  SHIELD_RECOVERY_DELAY,
+  SHIELD_RECOVERY_SPEED,
+  SHIP_HEALING_INTERVAL,
+  CANVAS_WIDTH,
+  CANVAS_HEIGHT,
+  SHIP_HEALING_REQUIRED_RESOURCES
+} from "../constants";
+import { angleBetween, dist } from "../math";
+import { thrustSound } from "../sound/sounds";
+import { interp } from "../util/interp";
+import { SimpleLaser } from "../projectiles/simple-laser";
+import { SuperLaser } from "../projectiles/super-laser";
+import { Civilization } from "../world/civilization";
+import { Ship } from "./ship";
+import { Star } from "../world/star";
+
+const w = window;
+export class PlayerShip extends Ship {
   constructor(x, y) {
     super(new Civilization(), x, y);
 
@@ -112,23 +133,23 @@ class PlayerShip extends Ship {
   currentWarning() {
     if (this.health <= 0.3) {
       return (
-        nomangle("CRITICAL HULL DAMAGE") +
+        "CRITICAL HULL DAMAGE" +
         (this.civilization.resources < SHIP_HEALING_REQUIRED_RESOURCES
-          ? nomangle(". FIND RESOURCES TO REPAIR")
+          ? ". FIND RESOURCES TO REPAIR"
           : "")
       );
     }
 
     if (this.nearStar()) {
-      return nomangle("CRITICAL HEAT");
+      return "CRITICAL HEAT";
     }
 
     if (U.pirates.filter(ship => dist(ship, this) < CANVAS_WIDTH).length) {
-      return nomangle("PIRATES NEARBY");
+      return "PIRATES NEARBY";
     }
 
     if (this.shield <= 0) {
-      return nomangle("SHIELDS OFFLINE");
+      return "SHIELDS OFFLINE";
     }
   }
 

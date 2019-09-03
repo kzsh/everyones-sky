@@ -1,4 +1,8 @@
-class SuperLaser extends Laser {
+import { particle } from "../graphics/particle";
+import { rnd } from "../math";
+import { Laser } from "./laser";
+
+export class SuperLaser extends Laser {
   constructor(owner, x, y, angle) {
     super(owner, x, y, angle);
     this.maxSpeed = 800;

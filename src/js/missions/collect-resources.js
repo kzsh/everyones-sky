@@ -1,8 +1,11 @@
-class CollectResources extends TimedMissionStep {
+import { EVENT_PICKUP_RESOURCE } from "../constants";
+import { TimedMissionStep } from "./timed-mission-step";
+
+export class CollectResources extends TimedMissionStep {
   constructor() {
     super();
 
-    this.prompt = nomangle("Collect some resources for us");
+    this.prompt = "Collect some resources for us";
 
     this.requiredResources = 100;
     this.collectedResources = 0;
@@ -10,7 +13,7 @@ class CollectResources extends TimedMissionStep {
 
   instructions() {
     return (
-      nomangle("Collect resources - ") +
+      "Collect resources - " +
       this.collectedResources +
       "/" +
       this.requiredResources
@@ -26,7 +29,7 @@ class CollectResources extends TimedMissionStep {
       if (++this.collectedResources >= this.requiredResources) {
         this.reach(
           this.civilization.center,
-          nomangle("Return to ") + this.civilization.center.name
+          "Return to " + this.civilization.center.name
         );
       }
     });

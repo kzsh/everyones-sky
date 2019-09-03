@@ -1,8 +1,9 @@
+const w = window;
 w.down = {};
-onkeydown = e => {
+window.onkeydown = e => {
   w.down[e.keyCode] = true;
 };
-onkeyup = e => {
+window.onkeyup = e => {
   w.down[e.keyCode] = false;
   const character = String.fromCharCode(e.keyCode).toLowerCase();
   if (isNaN(character)) {

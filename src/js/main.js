@@ -1,4 +1,10 @@
-onload = () => {
+import { Game } from "./game";
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from "./constants";
+import { onresize } from "./util/resizer";
+
+const w = window;
+
+export const onload = () => {
   onresize(); // trigger initial sizing pass
 
   const can = document.querySelector("canvas");
@@ -8,6 +14,7 @@ onload = () => {
   R = can.getContext("2d");
 
   // Shortcut for all canvas methods to the main canvas
+  const p = CanvasRenderingContext2D.prototype;
   Object.getOwnPropertyNames(p).forEach(n => {
     if (R[n] && R[n].call) {
       w[n] = p[n].bind(R);
@@ -15,10 +22,10 @@ onload = () => {
   });
 
   // Detect available fonts
-  R.font = nomangle("99pt f"); // Setting a font that obviously doesn't exist
+  R.font = "99pt f"; // Setting a font that obviously doesn't exist
   const reference = measureText(w.title).width;
 
-  for (let fontName of [nomangle("Mono"), nomangle("Courier")]) {
+  for (let fontName of ["Mono", "Courier"]) {
     R.font = "99pt " + fontName;
     if (measureText(w.title).width != reference) {
       monoFont = fontName;

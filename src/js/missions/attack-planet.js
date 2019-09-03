@@ -1,9 +1,12 @@
-class AttackPlanet extends TimedMissionStep {
+import { EVENT_STATION_DESTROYED } from "../constants";
+import { rnd } from "../math";
+import { TimedMissionStep } from "./timed-mission-step";
+
+export class AttackPlanet extends TimedMissionStep {
   constructor(planet) {
     super();
     this.planet = planet;
-    this.prompt =
-      nomangle("Destroy facilities on ") + planet.nameWithRelationship();
+    this.prompt = "Destroy facilities on " + planet.nameWithRelationship();
     this.targets = [planet];
 
     this.destroyedStations = 0;
@@ -12,7 +15,7 @@ class AttackPlanet extends TimedMissionStep {
 
   instructions() {
     return (
-      nomangle("Facilities destroyed: ") +
+      "Facilities destroyed: " +
       this.destroyedStations +
       "/" +
       this.stationsToDestroy

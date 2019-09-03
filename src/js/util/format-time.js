@@ -1,4 +1,4 @@
-addZeroes = text => {
+const addZeroes = text => {
   text = text + "";
   while (text.length < 2) {
     text = "0" + text;
@@ -6,4 +6,5 @@ addZeroes = text => {
   return text;
 };
 
-formatTime = t => addZeroes(~~(t / 60)) + ":" + addZeroes(~~t % 60);
+export const formatTime = t =>
+  addZeroes(~~(t / 60)) + ":" + addZeroes(~~t % 60);

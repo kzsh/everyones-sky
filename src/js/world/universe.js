@@ -1,4 +1,23 @@
-class Universe {
+import {
+  CANVAS_HEIGHT,
+  CANVAS_WIDTH,
+  UNIVERSE_GENERATE_ORBIT_MAX_MARGIN,
+  UNIVERSE_GENERATE_ORBIT_MIN_MARGIN,
+  UNIVERSE_GENERATE_SYSTEM_MAX_PLANETS,
+  UNIVERSE_GENERATE_SYSTEM_MIN_MARGIN,
+  UNIVERSE_GENERATE_SYSTEM_MIN_PLANETS
+} from "../constants";
+import { angleBetween, moduloWithNegative, rnd, pick } from "../math";
+import { ResourceItem } from "../items/resource-item";
+import { createNumberGenerator } from "../util/rng";
+import { Star } from "./star";
+import { Planet } from "./planet";
+import { Civilization } from "./civilization";
+import { Asteroid } from "./asteroid";
+import { PlayerShip } from "../ships/player-ship";
+import { AIShip } from "../ships/ai-ship";
+
+export class Universe {
   constructor() {
     this.ships = [];
     this.bodies = [];

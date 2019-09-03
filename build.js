@@ -11,31 +11,6 @@ function copy(obj) {
 }
 
 compiler.run(tasks => {
-  function buildJS(mangle, uglify) {
-    // Manually injecting the DEBUG constant
-    const constants = copy(CONSTANTS);
-    constants.DEBUG = !uglify;
-
-    const sequence = [
-      tasks.label("Building JS"),
-      tasks.loadFiles(JS_FILES),
-      tasks.concat(),
-      tasks.constants(constants),
-      tasks.macro("evaluate"),
-      tasks.macro("nomangle")
-    ];
-
-    if (mangle) {
-      sequence.push(tasks.mangle(MANGLE_SETTINGS));
-    }
-
-    if (uglify) {
-      sequence.push(tasks.uglifyES());
-    }
-
-    return tasks.sequence(sequence);
-  }
-
   function buildCSS(uglify) {
     const sequence = [
       tasks.label("Building CSS"),
@@ -68,7 +43,6 @@ compiler.run(tasks => {
     return tasks.sequence([
       tasks.block("Building main files"),
       tasks.parallel({
-        js: buildJS(true, true),
         css: buildCSS(true),
         html: buildHTML(true)
       }),
@@ -83,33 +57,8 @@ compiler.run(tasks => {
     ]);
   }
 
-  function buildDebug(mangle, suffix) {
-    return tasks.sequence([
-      tasks.block("Building debug files"),
-      tasks.parallel({
-        // Debug JS in a separate file
-        debug_js: tasks.sequence([
-          buildJS(mangle, false),
-          tasks.output(__dirname + "/build/debug" + suffix + ".js")
-        ]),
-
-        // Injecting the debug file
-        js: tasks.inject(["debug" + suffix + ".js"]),
-
-        css: buildCSS(false),
-        html: buildHTML(false)
-      }),
-      tasks.combine(),
-      tasks.output(__dirname + "/build/debug" + suffix + ".html")
-    ]);
-  }
-
   function main() {
-    return tasks.sequence([
-      buildMain(),
-      buildDebug(false, ""),
-      buildDebug(true, "_mangled")
-    ]);
+    return tasks.sequence([buildMain()]);
   }
 
   return main();

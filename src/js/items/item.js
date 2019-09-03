@@ -1,4 +1,12 @@
-class Item {
+import {
+  ITEM_MAGNETIZED_RADIUS,
+  ITEM_MAGNETIZED_SPEED,
+  ITEM_PICKUP_RADIUS
+} from "../constants";
+import { angleBetween, dist, rnd } from "../math";
+import { interp } from "../util/interp";
+
+export class Item {
   constructor(x, y) {
     this.scaleRandom = random();
     this.timeLeft = 15;

@@ -1,4 +1,11 @@
-class Asteroid extends Body {
+import { SHIP_ACCELERATION, SHIP_DECELERATION } from "../constants";
+import { createCanvas } from "../graphics/create-canvas";
+import { particle } from "../graphics/particle";
+import { angleBetween, dist, distP, rnd, pick } from "../math";
+import { explosionSound } from "../sound/sounds";
+import { Body } from "./body";
+
+export class Asteroid extends Body {
   constructor(radius, speed) {
     super();
 

@@ -1,4 +1,9 @@
-class ResourceItem extends Item {
+import { PLANET_MAX_RESOURCES, EVENT_PICKUP_RESOURCE } from "../constants";
+import { pickupSound } from "../sound/sounds";
+import { renderResourcesIcon } from "../graphics/assets";
+import { Item } from "./item";
+
+export class ResourceItem extends Item {
   renderGraphic() {
     scale(0.3, 0.3);
 

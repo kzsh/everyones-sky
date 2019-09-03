@@ -1,4 +1,4 @@
-once = f => {
+export const once = f => {
   let res;
   return () => {
     res = res || f();

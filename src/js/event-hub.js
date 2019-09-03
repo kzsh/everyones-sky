@@ -1,4 +1,4 @@
-class EventHub {
+export class EventHub {
   constructor() {
     this.listeners = {};
   }

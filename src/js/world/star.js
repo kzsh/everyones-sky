@@ -1,6 +1,16 @@
+import { stickString } from "../font";
+import {
+  UNIVERSE_GENERATE_STAR_MIN_RADIUS,
+  UNIVERSE_GENERATE_STAR_MAX_RADIUS
+} from "../constants";
+import { createCanvas } from "../graphics/create-canvas";
+import { randomName } from "../util/random-name";
+import { haloAround } from "../graphics/assets";
+import { Body } from "./body";
+
 const rndArr = [0.1, 0.3, 0.2, 0.5];
 
-class Star extends Body {
+export class Star extends Body {
   constructor(rng) {
     super();
     this.radius = rng.between(
@@ -62,6 +72,6 @@ class Star extends Body {
   }
 
   nameWithRelationship() {
-    return this.name + nomangle("(star)");
+    return this.name + "(star)";
   }
 }

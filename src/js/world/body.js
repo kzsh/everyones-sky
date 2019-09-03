@@ -1,4 +1,11 @@
-class Body {
+import { SHIP_ACCELERATION, SHIP_DECELERATION } from "../constants";
+import { particle } from "../graphics/particle";
+import { angleBetween, dist, rnd, pick } from "../math";
+import { interp } from "../util/interp";
+import { renderStickString } from "../font";
+import { explosionSound } from "../sound/sounds";
+
+export class Body {
   constructor() {
     this.x = this.y = 0;
     this.radius = 0;

@@ -1,4 +1,9 @@
-class PromptMission extends MissionStep {
+import { dismiss } from "../globals";
+import { EVENT_CYCLE, RELATIONSHIP_UPDATE_MISSION_IGNORED } from "../constants";
+import { formatTime } from "../util/format-time";
+import { MissionStep } from "./mission-step";
+
+export class PromptMission extends MissionStep {
   constructor(missionStep) {
     super();
     this.missionStep = missionStep;
@@ -16,24 +21,24 @@ class PromptMission extends MissionStep {
 
     G.showPrompt(
       () =>
-        nomangle("Incoming communication from ") +
+        "Incoming communication from " +
         this.missionStep.civilization.center.nameWithRelationship() +
         " - " +
         formatTime(timeleft),
       [
         {
-          label: nomangle("Respond"),
+          label: "Respond",
           action: () => {
             timeleft = 15;
             G.showPrompt(
               () => this.missionStep.prompt + " - " + formatTime(timeleft),
               [
                 {
-                  label: nomangle("Accept"),
+                  label: "Accept",
                   action: () => this.proceed(this.missionStep)
                 },
                 {
-                  label: nomangle("Refuse"),
+                  label: "Refuse",
                   action: () => this.proceed()
                 }
               ]
@@ -41,7 +46,7 @@ class PromptMission extends MissionStep {
           }
         },
         {
-          label: nomangle("Ignore"),
+          label: "Ignore",
           action: () => this.proceed()
         }
       ]
@@ -56,9 +61,9 @@ class PromptMission extends MissionStep {
         RELATIONSHIP_UPDATE_MISSION_IGNORED
       );
       G.showPrompt(
-        nomangle("Communication ignored. ") +
+        "Communication ignored. " +
           this.missionStep.civilization.center.name +
-          nomangle(" will remember that"),
+          " will remember that",
         [
           {
             label: dismiss,

@@ -1,4 +1,4 @@
-pointsAround = (center, radiuses) => {
+export const pointsAround = (center, radiuses) => {
   const pts = [];
 
   const circles = [];

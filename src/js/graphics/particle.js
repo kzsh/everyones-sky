@@ -1,4 +1,6 @@
-particle = (color, interpolations, render) => {
+import { interp } from "../util/interp";
+
+export const particle = (color, interpolations, render) => {
   let p;
 
   // Add to the list of particles

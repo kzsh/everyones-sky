@@ -1,4 +1,13 @@
-class Camera {
+import {
+  BODY_ZOOM_THRESHOLD,
+  BODY_UNZOOM_THRESHOLD,
+  CANVAS_WIDTH,
+  CANVAS_HEIGHT
+} from "./constants";
+
+import { dist, limit, rnd } from "./math";
+
+export class Camera {
   constructor() {
     this.x = this.y = 0;
     this.shakeX = this.shakeY = 0;
@@ -14,7 +23,7 @@ class Camera {
     });
 
     if (minDistance > BODY_UNZOOM_THRESHOLD) {
-      this.targetScale = isTouch ? 0.7 : 0.5;
+      this.targetScale = window.isTouch ? 0.7 : 0.5;
     } else if (minDistance < BODY_ZOOM_THRESHOLD) {
       this.targetScale = 1;
     }

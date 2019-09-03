@@ -1,10 +1,52 @@
-class Game {
+import {
+  CANVAS_HEIGHT,
+  CANVAS_WIDTH,
+  EVENT_CYCLE,
+  GAME_RECAP_MIN_RELATIONSHIP_CHANGES,
+  GAME_RECAP_RELATIONSHIP_CHANGES_NEUTRAL_THRESHOLD,
+  MOBILE_BUTTON_SIZE,
+  PLANET_MAX_RESOURCES,
+  PROMPT_OPTION_BOX_HEIGHT,
+  PROMPT_OPTION_BOX_WIDTH,
+  RELATIONSHIP_ALLY,
+  RELATIONSHIP_ENEMY,
+  RELATIONSHIP_UPDATE_MISSION_FAILED,
+  RELATIONSHIP_UPDATE_MISSION_SUCCESS
+} from "./constants";
+import { particle } from "./graphics/particle";
+import { angleBetween, dist, limit, between, pick } from "./math";
+import { Asteroids } from "./missions/asteroids";
+import { AttackPlanet } from "./missions/attack-planet";
+import { Pirates } from "./missions/pirates";
+import { PromptMission } from "./missions/prompt-mission";
+import { PromptTutorialStep } from "./missions/tutorial-steps";
+import { StudyBody } from "./missions/study-body";
+import { CollectResources } from "./missions/collect-resources";
+
+import { interp } from "./util/interp";
+import {
+  warningSound,
+  findSytemSound,
+  introSound,
+  selectSound,
+  promptSound
+} from "./sound/sounds";
+import { dismiss } from "./globals";
+import { stickString, renderStickString } from "./font";
+import { renderResourcesIcon } from "./graphics/assets";
+import { Camera } from "./camera";
+import { EventHub } from "./event-hub";
+import { Universe } from "./world/universe";
+import { Asteroid } from "./world/asteroid";
+
+const w = window;
+
+export class Game {
   constructor() {
-    G = this;
+    const G = (window.G = this);
+    const U = (window.U = new Universe());
+    const V = (window.V = new Camera());
 
-    U = new Universe();
-
-    V = new Camera();
     G.setupNewGame();
 
     G.clock = 0;
@@ -15,11 +57,9 @@ class Game {
 
     // G.missionStep = null; // for reference
 
-    G.titleStickString = stickString(nomangle("everyone's"));
-    G.subtitleStickString = stickString(nomangle("sky"));
-    G.instructionsStickString = stickString(
-      nomangle("press enter to send a ship")
-    );
+    G.titleStickString = stickString("everyone's");
+    G.subtitleStickString = stickString("sky");
+    G.instructionsStickString = stickString("press enter to send a ship");
 
     G.titleCharWidth = G.subtitleCharWidth = 50;
     G.titleCharHeight = G.subtitleCharHeight = 100;
@@ -139,12 +179,13 @@ class Game {
       translate(V.shakeX, V.shakeY);
 
       fs("rgba(0,0,0,0.5)");
+      fs("rgba(0,0,0,0.5)");
       R.strokeStyle = "#fff";
       fr(50, 30, 270, 125);
       strokeRect(50.5, 30.5, 270, 125);
 
       R.font = "10pt " + monoFont;
-      R.textAlign = nomangle("center");
+      R.textAlign = "center";
       fs("#fff");
 
       const allyMap = U.bodies.reduce(
@@ -159,7 +200,7 @@ class Game {
       );
 
       fillText(
-        nomangle("Peace: ") +
+        "Peace: " +
           ~~((allyMap[RELATIONSHIP_ALLY] * 100) / allyMap.total) +
           "%",
         185,
@@ -235,7 +276,7 @@ class Game {
 
       if (isInSystem && !closestStars[0].systemDiscovered) {
         closestStars[0].systemDiscovered = true;
-        G.showMessage(nomangle("system discovered - ") + closestStars[0].name);
+        G.showMessage("system discovered - " + closestStars[0].name);
       }
 
       if (G.missionStep) {
@@ -298,21 +339,21 @@ class Game {
           fs("rgba(0,0,0,0.5)");
           R.font = "20pt " + monoFont;
 
-          translate(0, CANVAS_HEIGHT - (isTouch ? 400 : 200));
+          translate(0, CANVAS_HEIGHT - (window.isTouch ? 400 : 200));
           fr(0, 0, CANVAS_WIDTH, 200);
 
           const textWidth = measureText(promptText + "_").width;
           const actualText = this.currentPromptText();
 
           fs("#fff");
-          R.textAlign = nomangle("left");
+          R.textAlign = "left";
           if (!G.selectedPromptOption) {
             fillText(actualText, (CANVAS_WIDTH - textWidth) / 2, 50);
           }
 
           if (actualText.length >= promptText.length) {
-            R.textAlign = nomangle("center");
-            R.textBaseline = nomangle("middle");
+            R.textAlign = "center";
+            R.textBaseline = "middle";
             R.font = "16pt " + monoFont;
 
             G.promptOptions.forEach((option, i) => {
@@ -363,9 +404,9 @@ class Game {
 
         R.font = "36pt " + monoFont;
         R.textBaseline = "middle";
-        R.textAlign = nomangle("center");
+        R.textAlign = "center";
         fs("#fff");
-        fillText(nomangle("/!\\ WARNING /!\\"), CANVAS_WIDTH / 2, 250);
+        fillText("/!\\ WARNING /!\\", CANVAS_WIDTH / 2, 250);
 
         R.font = "18pt " + monoFont;
         fillText(G.currentWarning, CANVAS_WIDTH / 2, 300);
@@ -461,7 +502,7 @@ class Game {
 
         R.font = "20pt " + monoFont;
         fs("#fff");
-        R.textAlign = nomangle("center");
+        R.textAlign = "center";
 
         G.gameRecap.forEach((line, i) => {
           fillText(
@@ -475,7 +516,7 @@ class Game {
 
     // Touch controls
     wrap(() => {
-      if (!isTouch) {
+      if (!window.isTouch) {
         return;
       }
 
@@ -686,11 +727,11 @@ class Game {
     );
 
     G.showPrompt(
-      nomangle("Mission ") +
-        (success ? nomangle("SUCCESS") : nomangle("FAILED")) +
+      "Mission " +
+        (success ? "SUCCESS" : "FAILED") +
         ". " +
         missionStep.civilization.center.name +
-        nomangle(" will remember that."),
+        " will remember that.",
       [
         {
           label: dismiss,
@@ -739,23 +780,21 @@ class Game {
 
     let subtitle;
     if (enemiesMade + alliesMade < GAME_RECAP_MIN_RELATIONSHIP_CHANGES) {
-      subtitle = nomangle("you were barely noticed");
+      subtitle = "you were barely noticed";
     } else if (
       abs(enemiesMade - alliesMade) <
       GAME_RECAP_RELATIONSHIP_CHANGES_NEUTRAL_THRESHOLD
     ) {
-      subtitle = nomangle("little has changed");
+      subtitle = "little has changed";
     } else if (enemiesMade > alliesMade) {
-      subtitle = nomangle("you brought war");
+      subtitle = "you brought war";
     } else {
-      subtitle = nomangle("you brought peace");
+      subtitle = "you brought peace";
     }
 
-    G.titleStickString = stickString(nomangle("game over"));
+    G.titleStickString = stickString("game over");
     G.subtitleStickString = stickString(subtitle);
-    G.instructionsStickString = stickString(
-      nomangle("press enter to send another ship")
-    );
+    G.instructionsStickString = stickString("press enter to send another ship");
 
     G.subtitleCharWidth = 25;
     G.subtitleCharHeight = 50;
@@ -771,8 +810,8 @@ class Game {
 
     setTimeout(() => {
       G.gameRecap = [
-        enemiesMade + nomangle(" planets have declared war against you"),
-        alliesMade + nomangle(" species have become your allies")
+        enemiesMade + " planets have declared war against you",
+        alliesMade + " species have become your allies"
       ];
       G.startable = true;
     }, 4000);

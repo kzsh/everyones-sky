@@ -1,4 +1,35 @@
-class Planet extends Body {
+import { stickString } from "../font";
+import {
+  PLANET_COLOR_CHANGE_FACTOR,
+  PLANET_EVOLUTION_INTERVAL,
+  PLANET_EVOLUTION_REQUIRED_RESOURCES,
+  PLANET_MAX_INITIAL_RESOURCES,
+  PLANET_MAX_RESOURCES,
+  PLANET_MIN_INITIAL_RESOURCES,
+  PLANET_RESOURCES_PER_SECOND,
+  PLANET_STRIPE_MAX_SIZE,
+  PLANET_STRIPE_MIN_SIZE,
+  RELATIONSHIP_ENEMY,
+  UNIVERSE_GENERATE_PLANET_MAX_RADIUS,
+  UNIVERSE_GENERATE_PLANET_MIN_RADIUS
+} from "../constants";
+import { createCanvas } from "../graphics/create-canvas";
+import { limit, rnd, pick } from "../math";
+import { once } from "../util/once";
+import { randomName } from "../util/random-name";
+import { haloAround } from "../graphics/assets";
+import { createNumberGenerator } from "../util/rng";
+import { Body } from "./body";
+import { Mountain } from "../stations/mountain";
+import { Mortar } from "../stations/mortar";
+import { City } from "../stations/city";
+import { Factory } from "../stations/factory";
+import { BigAIShip } from "../ships/big-ai-ship";
+import { AIShip } from "../ships/ai-ship";
+
+import { Civilization } from "./civilization";
+
+export class Planet extends Body {
   constructor(orbitsAround, orbitRadius, seed) {
     super();
 
@@ -49,7 +80,7 @@ class Planet extends Body {
           r.fs("#fff");
           r.arc(this.radius, this.radius, this.radius, 0, TWO_PI);
           r.fill();
-          r.globalCompositeOperation = nomangle("source-atop");
+          r.globalCompositeOperation = "source-atop";
 
           const rng = createNumberGenerator(
             this.name.charCodeAt(0) + this.radius
@@ -62,9 +93,7 @@ class Planet extends Body {
             y < this.radius * 2;
             y += rng.between(PLANET_STRIPE_MIN_SIZE, PLANET_STRIPE_MAX_SIZE)
           ) {
-            r.fs(
-              nomangle("rgb") + "(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")"
-            );
+            r.fs("rgb" + "(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")");
             r.fillRect(0, y, this.radius * 2, this.radius * 2);
 
             // Update colors for the next stripe
@@ -309,8 +338,8 @@ class Planet extends Body {
       this.name +
       " (" +
       (this.civilization.relationshipType() === RELATIONSHIP_ENEMY
-        ? nomangle("enemy")
-        : nomangle("ally")) +
+        ? "enemy"
+        : "ally") +
       ")"
     );
   }

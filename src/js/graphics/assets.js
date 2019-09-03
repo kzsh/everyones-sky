@@ -1,4 +1,6 @@
-renderResourcesIcon = () => {
+import { createCanvas } from "./create-canvas";
+
+export const renderResourcesIcon = () => {
   beginPath();
   arc(0, -12, 15, 0, TWO_PI);
   fill();
@@ -10,7 +12,7 @@ renderResourcesIcon = () => {
   fill();
 };
 
-haloAround = (asset, haloRadius, colorStart, colorEnd) => {
+export const haloAround = (asset, haloRadius, colorStart, colorEnd) => {
   return createCanvas(
     asset.width + haloRadius * 2,
     asset.height + haloRadius * 2,

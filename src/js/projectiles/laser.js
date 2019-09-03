@@ -1,4 +1,7 @@
-class Laser {
+import { hitSound, shootSound } from "../sound/sounds";
+import { angleBetween, normalize, dist, limit } from "../math";
+
+export class Laser {
   constructor(owner, x, y, angle) {
     this.owner = owner;
     this.x = x;

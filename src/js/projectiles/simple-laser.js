@@ -1,4 +1,8 @@
-class SimpleLaser extends Laser {
+import { particle } from "../graphics/particle";
+import { rnd } from "../math";
+import { Laser } from "./laser";
+
+export class SimpleLaser extends Laser {
   constructor(owner, x, y, angle) {
     super(owner, x, y, angle);
     this.speed = 400;

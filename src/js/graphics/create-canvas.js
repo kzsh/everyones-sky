@@ -1,4 +1,4 @@
-const createCanvas = (w, h, instructions) => {
+export const createCanvas = (w, h, instructions) => {
   const can = document.createElement("canvas");
   can.width = w;
   can.height = h;

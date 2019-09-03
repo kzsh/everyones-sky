@@ -1,7 +1,31 @@
-class BigAIShip extends Ship {
+import {
+  SHIP_ACCELERATION,
+  SHIP_DECELERATION,
+  AI_SHIP_MAX_SPEED,
+  AI_MOVE_TARGET_RADIUS,
+  RELATIONSHIP_ENEMY,
+  RELATIONSHIP_UPDATE_DESTROY_SHIP,
+  RELATIONSHIP_UPDATE_DAMAGE_SHIP
+} from "../constants";
+import {
+  angleBetween,
+  normalize,
+  sign,
+  dist,
+  distP,
+  limit,
+  pick
+} from "../math";
+import { pointsAround } from "../util/points-around";
+import { SimpleLaser } from "../projectiles/simple-laser";
+import { SuperLaser } from "../projectiles/super-laser";
+import { Ship } from "./ship";
+
+export class BigAIShip extends Ship {
   constructor(civilization, x, y) {
     super(civilization);
     this.nextDecisionChange = 0;
+    this.health = 5;
 
     this.x = x;
     this.y = y;

@@ -1,4 +1,6 @@
-class City extends PlanetaryStation {
+import { PlanetaryStation } from "./planetary-station";
+
+export class City extends PlanetaryStation {
   renderGraphic() {
     fr(0, -11, 10, 6); // left
     fr(0, -3, 20, 6); // center building

@@ -1,4 +1,6 @@
-class Factory extends PlanetaryStation {
+import { PlanetaryStation } from "./planetary-station";
+
+export class Factory extends PlanetaryStation {
   renderGraphic() {
     beginPath();
     moveTo(0, -10);

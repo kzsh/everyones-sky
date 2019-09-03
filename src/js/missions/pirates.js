@@ -1,11 +1,15 @@
-class Pirates extends TimedMissionStep {
+import { EVENT_CYCLE } from "../constants";
+import { rnd, pick } from "../math";
+import { TimedMissionStep } from "./timed-mission-step";
+
+export class Pirates extends TimedMissionStep {
   constructor() {
     super();
-    this.prompt = nomangle("Help us fight these pirates");
+    this.prompt = "Help us fight these pirates";
   }
 
   instructions() {
-    return nomangle("Destroy the pirate ships");
+    return "Destroy the pirate ships";
   }
 
   attach() {

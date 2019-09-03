@@ -1,4 +1,4 @@
-class PathNodeSet {
+export class PathNodeSet {
   constructor() {
     this.nodeMap = {};
     this.nodeList = [];
@@ -28,7 +28,7 @@ class PathNodeSet {
   }
 }
 
-class PathNode {
+export class PathNode {
   constructor(node, parent = null, distance = 0) {
     this.node = node;
     this.parent = parent;
@@ -36,7 +36,7 @@ class PathNode {
   }
 }
 
-class PathFinder {
+export class PathFinder {
   constructor(options) {
     this.funcs = {};
     this.funcs.hash = options.hash;

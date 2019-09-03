@@ -1,14 +1,19 @@
-class PromptTutorialStep extends MissionStep {
+import { dismiss } from "../globals";
+import { EVENT_SHOT, EVENT_CYCLE } from "../constants";
+import { dist } from "../math";
+import { MissionStep } from "./mission-step";
+
+export class PromptTutorialStep extends MissionStep {
   attach() {
     V.targetScaleOverride = 1;
 
-    G.showPrompt(nomangle("Follow a quick tutorial?"), [
+    G.showPrompt("Follow a quick tutorial?", [
       {
-        label: nomangle("Yes"),
+        label: "Yes",
         action: () => this.proceed(new MovementStep())
       },
       {
-        label: nomangle("No"),
+        label: "No",
         action: () => this.proceed(new InstructionsStep())
       }
     ]);
@@ -17,7 +22,7 @@ class PromptTutorialStep extends MissionStep {
 
 class MovementStep extends MissionStep {
   attach() {
-    G.showPrompt(nomangle("Use arrow keys to control your ship"));
+    G.showPrompt("Use arrow keys to control your ship");
 
     const start = { x: U.playerShip.x, y: U.playerShip.y };
     this.listen(EVENT_CYCLE, () => {
@@ -30,7 +35,7 @@ class MovementStep extends MissionStep {
 
 class ShootingStep extends MissionStep {
   attach() {
-    G.showPrompt(nomangle("Press [SPACE] for blasters, [ENTER] for torpedoes"));
+    G.showPrompt("Press [SPACE] for blasters, [ENTER] for torpedoes");
 
     let shots = 20;
     this.listen(EVENT_SHOT, projectile => {
@@ -43,13 +48,11 @@ class ShootingStep extends MissionStep {
 
 class OfflineStep extends MissionStep {
   attach() {
-    G.showPrompt(nomangle("Communications OFFLINE. Find resources to repair"), [
+    G.showPrompt("Communications OFFLINE. Find resources to repair", [
       {
-        label: nomangle("Help"),
+        label: "Help",
         action: () =>
-          G.showPrompt(
-            nomangle("Resources can be collected by destroying asteroids")
-          )
+          G.showPrompt("Resources can be collected by destroying asteroids")
       }
     ]);
 
@@ -67,7 +70,7 @@ class OfflineStep extends MissionStep {
 
 class TutorialFinishedStep extends MissionStep {
   attach() {
-    G.showPrompt(nomangle("Communications ONLINE. Good job"));
+    G.showPrompt("Communications ONLINE. Good job");
 
     setTimeout(() => this.proceed(new InstructionsStep()), 5000);
   }
@@ -79,7 +82,7 @@ class InstructionsStep extends MissionStep {
 
     U.generateUniverse();
 
-    G.showPrompt(nomangle("Bring PEACE to the galaxy, or WAR..."), [
+    G.showPrompt("Bring PEACE to the galaxy, or WAR...", [
       {
         label: dismiss,
         action: () => this.proceed()

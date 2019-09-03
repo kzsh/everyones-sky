@@ -1,11 +1,14 @@
-class StudyBody extends TimedMissionStep {
+import { EVENT_CYCLE } from "../constants";
+import { dist } from "../math";
+import { Body } from "../world/body";
+import { TimedMissionStep } from "./timed-mission-step";
+
+export class StudyBody extends TimedMissionStep {
   constructor(body) {
     super();
     this.body = body;
     this.prompt =
-      nomangle("Collect some data on ") +
-      body.nameWithRelationship() +
-      nomangle(" for us");
+      "Collect some data on " + body.nameWithRelationship() + " for us";
     this.targets = [body];
 
     this.studied = 0;
@@ -13,9 +16,9 @@ class StudyBody extends TimedMissionStep {
 
   instructions() {
     if (this.isClose()) {
-      return nomangle("Collecting data... - ") + ~~(this.studied * 100) + "%";
+      return "Collecting data... - " + ~~(this.studied * 100) + "%";
     }
-    return nomangle("Get close to ") + this.body.name;
+    return "Get close to " + this.body.name;
   }
 
   attach() {
@@ -28,7 +31,7 @@ class StudyBody extends TimedMissionStep {
         if (this.studied >= 1) {
           this.reach(
             this.civilization.center,
-            nomangle("Return to ") + this.civilization.center.name
+            "Return to " + this.civilization.center.name
           );
         }
       }

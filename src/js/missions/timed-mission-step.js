@@ -1,4 +1,8 @@
-class TimedMissionStep extends MissionStep {
+import { EVENT_CYCLE } from "../constants";
+import { formatTime } from "../util/format-time";
+import { MissionStep } from "./mission-step";
+
+export class TimedMissionStep extends MissionStep {
   attach() {
     this.timeleft = 120;
     this.listen(EVENT_CYCLE, e => {

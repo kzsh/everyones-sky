@@ -1,4 +1,6 @@
-class BlackHole extends Body {
+import { Body } from "./body";
+
+export class BlackHole extends Body {
   constructor() {
     super();
     this.radius = 200;

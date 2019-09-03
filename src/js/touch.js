@@ -1,6 +1,8 @@
-ontouchstart = e => ontouchmove(e, true);
+import { CANVAS_HEIGHT } from "./constants";
+const w = window;
+const ontouchstart = e => ontouchmove(e, true);
 
-ontouchmove = ontouchend = (e, isTouchStart) => {
+const ontouchmove = (ontouchend = (e, isTouchStart) => {
   e.preventDefault();
 
   const canvasRect = document.querySelector("canvas").getBoundingClientRect();
@@ -28,7 +30,7 @@ ontouchmove = ontouchend = (e, isTouchStart) => {
     }
   }
 
-  isTouch = true;
+  window.isTouch = true;
 
   G.start();
-};
+});

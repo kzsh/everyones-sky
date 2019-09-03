@@ -1,11 +1,16 @@
-class Asteroids extends TimedMissionStep {
+import { EVENT_CYCLE, CANVAS_WIDTH } from "../constants";
+import { sign, rnd, pick } from "../math";
+import { Asteroid } from "../world/asteroid";
+import { TimedMissionStep } from "../missions/timed-mission-step";
+
+export class Asteroids extends TimedMissionStep {
   constructor() {
     super();
-    this.prompt = nomangle("Destroy these asteroids for us");
+    this.prompt = "Destroy these asteroids for us";
   }
 
   instructions() {
-    return nomangle("Destroy the asteroids");
+    return "Destroy the asteroids";
   }
 
   attach() {
@@ -15,9 +20,7 @@ class Asteroids extends TimedMissionStep {
     for (let i = 0; i < 5; i++) {
       const asteroid = new Asteroid();
       asteroid.x = U.playerShip.x + (pick([-1, 1]) * CANVAS_WIDTH) / 0.25;
-      asteroid.y = U.playerShip.y + rnd(-1, 1) * CANVAS_HEIGHT * 2;
-      asteroid.vX =
-        sign(U.playerShip.x - asteroid.x) * min(abs(asteroid.vX), 100);
+      sign(U.playerShip.x - asteroid.x) * min(abs(asteroid.vX), 100);
       asteroid.vY =
         sign(U.playerShip.y - asteroid.y) * min(abs(asteroid.vY), 100);
       asteroid.preventAutomaticRemoval = true;

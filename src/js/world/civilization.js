@@ -1,4 +1,7 @@
-class Civilization {
+import { RELATIONSHIP_ALLY, RELATIONSHIP_ENEMY } from "../constants";
+import { limit } from "../math";
+
+export class Civilization {
   constructor(center, relationship) {
     this.resources = 0;
     this.center = center;
@@ -11,9 +14,7 @@ class Civilization {
   }
 
   relationshipLabel() {
-    return this.relationshipType() === RELATIONSHIP_ENEMY
-      ? nomangle("enemy")
-      : nomangle("ally");
+    return this.relationshipType() === RELATIONSHIP_ENEMY ? "enemy" : "ally";
   }
 
   updateRelationship(difference) {
@@ -22,7 +23,7 @@ class Civilization {
 
     if (this.relationshipType() !== relationshipTypeBefore) {
       G.showMessage(
-        this.center.name + nomangle(" is now your ") + this.relationshipLabel()
+        this.center.name + " is now your " + this.relationshipLabel()
       );
     }
   }

@@ -1,4 +1,6 @@
-class HealthItem extends Item {
+import { Item } from "./item";
+
+export class HealthItem extends Item {
   renderGraphic() {
     scale(0.3, 0.3);
 

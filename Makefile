@@ -2,6 +2,8 @@
 
 build:
 	node build.js
+	yarn rollup -c
+
 
 update: install
 	cd js13k-compiler && git checkout master && git pull && npm install

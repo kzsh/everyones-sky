@@ -1,10 +1,10 @@
 const consonants = "BCDFGHJKLMNPQRSTVWXZ".split("");
 const vowels = "AEIOUY".split("");
 
-randomSyllable = rng =>
+export const randomSyllable = rng =>
   rng.pick(consonants) + rng.pick(vowels) + rng.pick(consonants.concat(vowels));
 
-randomName = rng =>
+export const randomName = rng =>
   randomSyllable(rng) +
   randomSyllable(rng) +
   " " +

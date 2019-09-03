@@ -1,4 +1,5 @@
-onresize = () => {
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from "../constants";
+export const onresize = () => {
   var mw = innerWidth,
     mh = innerHeight,
     ar = mw / mh, // available ratio

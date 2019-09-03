@@ -1,4 +1,9 @@
-class Mortar extends PlanetaryStation {
+import { RELATIONSHIP_ENEMY } from "../constants";
+import { angleBetween, normalize, dist, limit } from "../math";
+import { PlanetaryStation } from "./planetary-station";
+import { SuperLaser } from "../projectiles/super-laser";
+
+export class Mortar extends PlanetaryStation {
   constructor(planet, angleOnPlanet) {
     super(planet, angleOnPlanet);
     this.shootAngle = 0;

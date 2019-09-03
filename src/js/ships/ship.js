@@ -1,4 +1,25 @@
-class Ship {
+import {
+  EVENT_SHOT,
+  SHIP_ACCELERATION,
+  SHIP_DECELERATION,
+  SHIP_ROTATION_SPEED,
+  SHIP_MAX_SPEED,
+  SHIP_SHOT_INTERVAL
+} from "../constants";
+import { particle } from "../graphics/particle";
+import {
+  angleBetween,
+  normalize,
+  sign,
+  dist,
+  distP,
+  limit,
+  rnd,
+  pick
+} from "../math";
+import { explosionSound } from "../sound/sounds";
+
+export class Ship {
   constructor(civilization) {
     this.civilization = civilization;
 

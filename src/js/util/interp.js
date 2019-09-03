@@ -1,8 +1,8 @@
-linear = (t, b, c, d) => {
+const linear = (t, b, c, d) => {
   return (t / d) * c + b;
 };
 
-interp = (o, p, a, b, d, l, f, e) => {
+export const interp = (o, p, a, b, d, l, f, e) => {
   var i = {
     o: o, // object
     p: p, // property
@@ -32,4 +32,4 @@ interp = (o, p, a, b, d, l, f, e) => {
   INTERPOLATIONS.push(i);
 };
 
-INTERPOLATIONS = [];
+window.INTERPOLATIONS = [];
